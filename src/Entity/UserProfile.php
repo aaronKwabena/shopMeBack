@@ -13,8 +13,8 @@ class UserProfile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $phone = null;
+    #[ORM\Column(type: "string", length: 15)]
+    private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
@@ -44,7 +44,7 @@ class UserProfile
         return $this->phone;
     }
 
-    public function setPhone(int $phone): static
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
