@@ -13,10 +13,10 @@ class UserProfile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: "string", length: 15)]
-    private ?string $phone = null;
+    #[ORM\Column(type:"string", length:255, nullable:false)]
+    private $phone;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $address = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -39,7 +39,7 @@ class UserProfile
         return $this->id;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }

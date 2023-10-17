@@ -39,17 +39,16 @@ class UserFixtures extends Fixture
         $manager->persist($userAdmin);
 
         // Regular users
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             $user = new User();
             $user->setFullName($faker->name)
                 ->setEmail("user$i@domain.fr")
                 ->setPassword('12345678')
                 ->setRoles(['ROLE_USER']);
 
+        $hashedPassword = $this->userPasswordHasher->hashPassword($user, '12345678');
+        $user->setPassword($hashedPassword);
 
-                $hashedPassword = $this->userPasswordHasher->hashPassword($user, '12345678');
-                $user->setPassword($hashedPassword);
-                
                 // Create a user profile and associate it with the user
             $userProfile = new UserProfile();
             $userProfile->setPhone($faker->phoneNumber)
@@ -62,9 +61,12 @@ class UserFixtures extends Fixture
             $user->setUserProfile($userProfile);
 
             $manager->persist($user);
-            $manager->persist($userProfile);
+            if (!$manager->contains($userProfile)) {
+                $manager->persist($userProfile);
+            }
         }
 
         $manager->flush();
     }
 }
+
